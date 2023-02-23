@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_employee_hours_reminder" model="mail.template">
+            <field name="name">Employee Hours Reminder</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="subject">Reminder: You have not fulfilled the required hours</field>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.name},</p>
+                <p>You havent finished the required min hrs per month which is ${object.hours_per_month}.</p>
+                <p>Please try to finish the required hrs.</p>
+            ]]></field>
+            <field name="email_from">${company.email_formatted}</field>
+        </record>
+    </data>
+</odoo>

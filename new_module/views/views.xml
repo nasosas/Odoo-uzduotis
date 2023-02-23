@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+<!-- Employee view -->
+        <record model="ir.ui.view" id="view_employee_form_inherit">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="tz" position="after">
+                    <field name="min_hours_per_month"/>
+                    <field name="hours_per_month" readonly="1"/>
+                    <field name="hours_per_week" readonly="1"/>
+                    <field name="hours_per_day" readonly="1"/>
+                    <field name="opt_out_letter"/>
+                    <xpath expr="//form/sheet/notebook/page[1]/field[@name='work_email']" position="after">
+                        <button name="send_information_letter" string="Send Information Letter" type="object" class="oe_highlight"/>
+                    </xpath>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_open_employee_form" model="ir.actions.act_window">
+            <field name="name">Open Employee Form</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+        <record model="mail.template" id="mail_template_employee_hours_reminder">
+            <field name="name">Employee Hours Reminder</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="subject">Information letter</field>
+            <field name="email_from">${user.email or ''}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+                <p>Hello ${employee_name},</p>
+                <p>This is to inform you that you have worked ${hours_per_month} hours this month, which is below the expected ${min_hours_per_month} hours per month.</p>
+                <p>Thank you.</p>
+            ]]></field>
+        </record>
+
+
+    <!-- Project view -->
+    <record model="ir.ui.view" id="project_task_form_view_inherit">
+        <field name="name">project.task.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="invoice_id" />
+            </field>
+        </field>
+    </record>
+
+  </data>
+</odoo>
